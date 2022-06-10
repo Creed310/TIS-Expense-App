@@ -57,7 +57,7 @@ const AddScreen = ({navigation, route}) =>
                         return
                     }
                 }
-                console.log('not in cat table')
+                console.log('not in Category-Type table')
                 alert('Category does not exist.')
             },
             (err) =>

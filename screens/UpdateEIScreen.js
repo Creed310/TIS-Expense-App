@@ -52,10 +52,10 @@ const UpdateEIScreen = ({navigation, route}) =>
                         console.log(updateEICategory, updateEIValue, rc_id)
                         trx.executeSql('UPDATE exp_inc_table SET category = ?, value = ? WHERE rc_id = ?', [updateEICategory, updateEIValue, rc_id], (trx, res) =>
                         {
-                            console.log('yay youre done')
+                            console.log('updated successfully')
                         }, () =>
                         {
-                            console.log('jesus')
+                            console.log('was not updated')
                         })
                     }
                 }

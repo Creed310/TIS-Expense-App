@@ -40,17 +40,17 @@ const UpdateCategoryScreen = ({navigation, route}) =>
     useEffect(() =>
     {
         ViewTable()
-        db.transaction((trx) =>
-        {
-            trx.executeSql('SELECT COUNT(*) FROM exp_inc_table', [], (trx, res) =>
-            {
-                console.log("Value is", res)
-            }),
-            (err) =>
-            {
-                console.log("err")
-            }
-        })
+        // db.transaction((trx) =>
+        // {
+        //     trx.executeSql('SELECT COUNT(*) FROM exp_inc_table', [], (trx, res) =>
+        //     {
+        //         console.log("Value is", res)
+        //     }),
+        //     (err) =>
+        //     {
+        //         console.log("err")
+        //     }
+        // })
     }, [UC_FlatList])
 
     return(

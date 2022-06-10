@@ -19,15 +19,15 @@ const HomeScreen = ({navigation}) =>
 
     const [FlatListEITable, setFlatListEITable] = useState([])
 
-    const createTable = () =>
-    {
-        db.transaction((trx) => 
-        {
-            trx.executeSql('CREATE TABLE IF NOT EXISTS exp_inc_table (rc_id INTEGER PRIMARY KEY AUTOINCREMENT, type VARCHAR2(20), value INTEGER(10), category VARCHAR2(20))', [], () => {}, () => {})
-            // trx.executeSql('SELECT * FROM exp_inc_table', [], (trx, res) => {console.log(res.rows.item(1))}, () => {console.log("error")})
-            // trx.executeSql("INSERT INTO exp_inc_table (type, value, category) VALUES (?, ?, ?)", ['expense', 32, 'rec'], () => {console.log("inserted"), () => {console.log("not inserted")}})
-        })
-    }
+    // const createTable = () =>
+    // {
+    //     db.transaction((trx) => 
+    //     {
+    //         // trx.executeSql('CREATE TABLE IF NOT EXISTS exp_inc_table (rc_id INTEGER PRIMARY KEY AUTOINCREMENT, type VARCHAR2(20), value INTEGER(10), category VARCHAR2(20))', [], () => {}, () => {})
+    //         // trx.executeSql('SELECT * FROM exp_inc_table', [], (trx, res) => {console.log(res.rows.item(1))}, () => {console.log("error")})
+    //         // trx.executeSql("INSERT INTO exp_inc_table (type, value, category) VALUES (?, ?, ?)", ['expense', 32, 'rec'], () => {console.log("inserted"), () => {console.log("not inserted")}})
+    //     })
+    // }
 
     const viewTable = () =>
     {
@@ -60,9 +60,7 @@ const HomeScreen = ({navigation}) =>
         
     useEffect(() =>
     {
-        createTable()
         viewTable()
-
         // QUESTION - used FlatListEITable here as the variable to check when refreshing, but when console logging it, it gets called repeatedly too fast, better way to solve?
     }, [FlatListEITable])
 
@@ -98,7 +96,12 @@ const HomeScreen = ({navigation}) =>
             <FlatList   
                 data = {FlatListEITable}
                 keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item }) => <EI_Row type = {item.type} id = {item.rc_id} category = {item.category} value = {item.value} />} />
+                renderItem={({ item }) => <EI_Row type = {item.type} id = {item.rc_id} category = {item.category} value = {item.value} 
+                                        onPress = {() => 
+                                            {   
+                                                // navigate to an UpdateCategoryValue page with a certain id if pressed
+                                                navigation.navigate('UpdateEI', {item: {item}})    
+                                            }}/>} />
         </SafeAreaView>
     </SafeAreaView>
   )

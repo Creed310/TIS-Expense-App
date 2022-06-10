@@ -12,6 +12,7 @@ const TypeCatRow = (props) =>
   return (
     <SafeAreaView style = {{ width: '100%'}}>
         <SafeAreaView>
+            
             <Pressable onPress = {() => onPress()}>
                 <Text style = {{backgroundColor: rowBackgroundColor, fontSize: 30, color: "black"}}>{id} {category} 
                 </Text>

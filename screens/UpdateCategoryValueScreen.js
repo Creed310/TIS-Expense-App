@@ -51,7 +51,6 @@ const UpdateCategoryValueScreen = ({navigation, route}) =>
         {
             trx.executeSql('UPDATE category_type_table SET category = ? WHERE id = ?', [UpdateCategoryValue, id], () =>
             {
-                console.log(UpdateCategoryValue);
                 alert("The category has been successfully modified.")
             },
             () =>

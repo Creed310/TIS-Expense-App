@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, Pressable } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet } from 'react-native'
 import { Update_Button } from '../Update_Button/component'
 
@@ -21,6 +21,7 @@ const EI_Row = (props) =>
     const category = props.category
     const value = props.value
     const id = props.id
+    const onPress = props.onPress
 
     const rowBackgroundColor = type === "expense" ? "#ff6961" : "#D3FA8E"
     const rowTextColor = type === "expense" ? "#851E15": "#226703"
@@ -28,12 +29,18 @@ const EI_Row = (props) =>
     const sign = type === "expense" ? "-" : "+"
     // make each row a pressable here so can modify.
 
+    useEffect(() =>
+    {
+        console.log(props)
+    },[])
   return (
     <SafeAreaView style = {styles.rowContainer}>
         <SafeAreaView style = {styles.row}>
-
-            <Text style = {{backgroundColor: rowBackgroundColor, fontSize: 25, color: rowTextColor}}>{id} {category} {sign}{value} {type} 
-            </Text>
+            <Pressable
+                onPress = {() => onPress()}>
+                <Text style = {{backgroundColor: rowBackgroundColor, fontSize: 25, color: rowTextColor}}>{id} {category} {sign}{value} {type} 
+                </Text>
+            </Pressable>
 
         </SafeAreaView>
     </SafeAreaView>

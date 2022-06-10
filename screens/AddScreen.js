@@ -43,9 +43,22 @@ const AddScreen = ({navigation, route}) =>
 
         db.transaction((trx) =>
         {
-            trx.executeSql('SELECT COUNT(*) FROM category_type_table', [], (trx, res) =>
+            trx.executeSql('SELECT category, type FROM category_type_table', [], (trx, res) =>
             {
-                console.log(res.rows.length)
+                for (let i = 0; i < res.rows.length; ++i)
+                {
+                    if(category == res.rows.item(i).category)
+                    {
+                        console.log('heyo')
+                        trx.executeSql('INSERT INTO exp_inc_table (type, value, category) VALUES (?, ?, ?)', [type, value, category], (tx, res) => { 
+                            console.log("great success")
+                            alert(`The ${type} has been added.`)
+                            }, () => {console.log("err")})
+                        return
+                    }
+                }
+                console.log('not in cat table')
+                alert('Category does not exist.')
             },
             (err) =>
             {

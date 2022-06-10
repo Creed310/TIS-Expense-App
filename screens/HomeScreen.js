@@ -8,9 +8,7 @@ import { FlatList, StyleSheet } from 'react-native'
 import * as SQLite from 'expo-sqlite'
 
 import EI_Button from '../components/EI_Button/component'
-import AddScreen from './AddScreen'
 import EI_Row from '../components/EI_Row/component'
-import AddCategoryScreen from './AddCategoryScreen'
 
 const db = SQLite.openDatabase("TISETApp.db")
 

@@ -6,7 +6,7 @@ import { openDatabase } from "expo-sqlite";
 import { FlatList, SafeAreaView } from "react-native";
 import TypeCatRow from "../components/TypeCatRow/component";
 
-const db = SQLite.openDatabase("TISET.db")
+const db = SQLite.openDatabase("TISETApp.db")
 
 const UpdateCategoryScreen = ({navigation, route}) =>
 {
@@ -36,10 +36,22 @@ const UpdateCategoryScreen = ({navigation, route}) =>
         })
     }
     
+    
     useEffect(() =>
     {
         ViewTable()
-    })
+        db.transaction((trx) =>
+        {
+            trx.executeSql('SELECT COUNT(*) FROM exp_inc_table', [], (trx, res) =>
+            {
+                console.log("Value is", res)
+            }),
+            (err) =>
+            {
+                console.log("err")
+            }
+        })
+    }, [UC_FlatList])
 
     return(
         <View style = {[styles.container, {backgroundColor : backgroundColor}]}>

@@ -25,13 +25,14 @@ const EI_Row = (props) =>
     const rowBackgroundColor = type === "expense" ? "#ff6961" : "#D3FA8E"
     const rowTextColor = type === "expense" ? "#851E15": "#226703"
 
+    const sign = type === "expense" ? "-" : "+"
     // make each row a pressable here so can modify.
-    
+
   return (
     <SafeAreaView style = {styles.rowContainer}>
         <SafeAreaView style = {styles.row}>
 
-            <Text style = {{backgroundColor: rowBackgroundColor, fontSize: 30, color: rowTextColor}}>{id} {category} {value} {type} 
+            <Text style = {{backgroundColor: rowBackgroundColor, fontSize: 25, color: rowTextColor}}>{id} {category} {sign}{value} {type} 
             </Text>
 
         </SafeAreaView>

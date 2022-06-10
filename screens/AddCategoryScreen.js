@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import * as SQLite from 'expo-sqlite'
 import { openDatabase } from "expo-sqlite";
 
-const db = SQLite.openDatabase("TISET.db")
+const db = SQLite.openDatabase("TISETApp.db")
 
 const AddCategoryScreen = ({navigation, route}) =>
 {
@@ -13,21 +13,6 @@ const AddCategoryScreen = ({navigation, route}) =>
     const backgroundColor = type === 'expense' ? '#ffb3b3' : '#dcffcc'
     const [NewCategory, setNewCategory] = useState('')
 
-    const createCategoryTypeTable = () =>
-    {
-        db.transaction((trx) =>
-        {
-            trx.executeSql('CREATE TABLE IF NOT EXISTS category_type_table (id INTEGER PRIMARY KEY AUTOINCREMENT, category VARCHAR2(20), type VARCHAR2(20))', [], 
-            (tx, res) =>
-            {
-                console.log('creation of table successful or table exists')
-            },
-            (err) =>
-            {
-                console.log('could not create or open the table.')
-            })
-        })
-    }
 
     const checkCategory = () =>
     {
@@ -36,7 +21,6 @@ const AddCategoryScreen = ({navigation, route}) =>
             // should check for category and type, can't share the same memory pool when checking if the category already exists. 
             trx.executeSql('SELECT type, category FROM category_type_table', [], (trx, res) =>
             {
-                const TypeCategoryArray = []
                 for (let i = 0; i < res.rows.length; ++i)
                 {
                     // can check here itself
@@ -68,11 +52,6 @@ const AddCategoryScreen = ({navigation, route}) =>
                     console.log('the category has been successfully inserted') }, () => { console.log(' The category could not be inserted. ')})
         })
     }
-
-    useEffect(() =>
-    {
-        createCategoryTypeTable()
-    }, [])
                 
     return(
         <View style = {[styles.container, {backgroundColor: backgroundColor}]}>

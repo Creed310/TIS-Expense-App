@@ -11,26 +11,17 @@ import EICat_Button from '../components/EICat_Button/component'
 
 const db = SQLite.openDatabase("TISETApp.db")
 
- 
-
 const AddScreen = ({navigation, route}) => 
 {
+    const type = route.params.type
+    const AddCategoryText = `Add a category of type ${type}`
+    const UpdateCategoryText = `Update a category of type ${type}`
 
-    const isCategoryPresent = (category) =>
-    {
-        const Categories = []
-        db.transaction((txn) =>
-        {
-            txn.executeSql('SELECT category from exp_inc_table', [], (trx, res) =>
-            {
-                    for (let i = 0; i<res.rows.length; i++)
-                    {
-                        Categories.push(res.rows.item(i).category)
-                    }            
-            })
-        })
-        //return (Categories.includes(category))
-    }
+    const backgroundColor = type === 'expense' ? '#ffb3b3' : '#dcffcc'
+
+    const [value, setValue] = useState(0)    
+    const [category, setCategory] = useState('') 
+
 
     const insertToTable = () => 
     {
@@ -41,35 +32,38 @@ const AddScreen = ({navigation, route}) =>
             return
         }
         
-        //IMPORTANT
-        //here can check if category already exists or not.
-
         if(!category)
         {
             alert("You need to enter a valid category.")
             return
         }
 
-        // if both exist, can make a transaction to the database.
-        db.transaction((txn) => 
+        //IMPORTANT
+        //here can check if category already exists or not.
+
+        db.transaction((trx) =>
         {
-            txn.executeSql('INSERT INTO exp_inc_table (type, value, category) VALUES (?, ?, ?)',
-            [type, value, category], (trx, res) => 
+            trx.executeSql('SELECT COUNT(*) FROM category_type_table', [], (trx, res) =>
             {
-                console.log("success on insertion")
-                alert("You have successfully added an entry!")
-            }, (err) => {console.log("failure on insertion")})       
+                console.log(res.rows.length)
+            },
+            (err) =>
+            {
+                console.log("err")
+            })
         })
+        
+        // if both exist, can make a transaction to the database.
+        // db.transaction((txn) => 
+        // {
+        //     txn.executeSql('INSERT INTO exp_inc_table (type, value, category) VALUES (?, ?, ?)',
+        //     [type, value, category], (trx, res) => 
+        //     {
+        //         console.log("success on insertion")
+        //         alert("You have successfully added an entry!")
+        //     }, (err) => {console.log("failure on insertion")})   
+        // })
     }
-
-    const type = route.params.type
-    const AddCategoryText = `Add a category of type ${type}`
-    const UpdateCategoryText = `Update a category of type ${type}`
-
-    const backgroundColor = type === 'expense' ? '#ffb3b3' : '#dcffcc'
-
-    const [value, setValue] = useState(0)    
-    const [category, setCategory] = useState('') 
 
     return (
     <SafeAreaView style = {[styles.container, {backgroundColor: backgroundColor}]}>

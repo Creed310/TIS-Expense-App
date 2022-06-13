@@ -61,6 +61,7 @@ const HomeScreen = ({navigation}) =>
     useEffect(() =>
     {
         viewTable()
+        // console.log("changes,", FlatListEITable)
         // QUESTION - used FlatListEITable here as the variable to check when refreshing, but when console logging it, it gets called repeatedly too fast, better way to solve?
     }, [FlatListEITable])
 

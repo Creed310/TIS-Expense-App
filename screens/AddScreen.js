@@ -49,7 +49,6 @@ const AddScreen = ({navigation, route}) =>
                 {
                     if(category == res.rows.item(i).category)
                     {
-                        console.log('heyo')
                         trx.executeSql('INSERT INTO exp_inc_table (type, value, category) VALUES (?, ?, ?)', [type, value, category], (tx, res) => { 
                             console.log("great success")
                             alert(`The ${type} has been added.`)

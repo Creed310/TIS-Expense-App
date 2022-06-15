@@ -9,6 +9,8 @@ import * as SQLite from 'expo-sqlite'
 
 import EI_Button from '../components/EI_Button/component'
 import EI_Row from '../components/EI_Row/component'
+import NavBar from '../components/NavBar/component'
+import EI_InfoBar from '../components/EI_InfoBar/component'
 
 const db = SQLite.openDatabase("TISETApp.db")
 
@@ -17,17 +19,35 @@ const db = SQLite.openDatabase("TISETApp.db")
 const HomeScreen = ({navigation}) => 
 {
 
+    
     const [FlatListEITable, setFlatListEITable] = useState([])
+    const [ExpenseTotal, setExpenseTotal] = useState(0)
+    const [IncomeTotal, setIncomeTotal] = useState(0)
 
-    // const createTable = () =>
-    // {
-    //     db.transaction((trx) => 
-    //     {
-    //         // trx.executeSql('CREATE TABLE IF NOT EXISTS exp_inc_table (rc_id INTEGER PRIMARY KEY AUTOINCREMENT, type VARCHAR2(20), value INTEGER(10), category VARCHAR2(20))', [], () => {}, () => {})
-    //         // trx.executeSql('SELECT * FROM exp_inc_table', [], (trx, res) => {console.log(res.rows.item(1))}, () => {console.log("error")})
-    //         // trx.executeSql("INSERT INTO exp_inc_table (type, value, category) VALUES (?, ?, ?)", ['expense', 32, 'rec'], () => {console.log("inserted"), () => {console.log("not inserted")}})
-    //     })
-    // }
+    let info_bar_stats = () =>
+    {
+        db.transaction((txn) => 
+        {
+            txn.executeSql('SELECT category, value FROM exp_inc_table', [], (tx, res) =>
+            {
+                for (let i = 0; i<res.rows.length; i++)
+                {
+                    if(res.rows.item(i).category == "expense")
+                    {
+                        setExpenseTotal(ExpenseTotal + res.rows.item(i).value)
+                    }
+                    else if(res.rows.item(i).category == "income")
+                    {
+                        setIncomeTotal(IncomeTotal + res.rows.item(i).value)
+                    }
+                }
+            },
+            (err) =>
+            {
+                console.log(err)
+            })
+        })
+    }
 
     const viewTable = () =>
     {
@@ -60,26 +80,35 @@ const HomeScreen = ({navigation}) =>
         
     useEffect(() =>
     {
+        //console.log(IncomeTotal)
+        info_bar_stats()
         viewTable()
+        // console.log("changes,", FlatListEITable)
         // QUESTION - used FlatListEITable here as the variable to check when refreshing, but when console logging it, it gets called repeatedly too fast, better way to solve?
     }, [FlatListEITable])
 
     return (
-    <SafeAreaView style = {styles.container}>
+    <View style = {{flex: 1}}>
 
-        <View>
+        <NavBar navigation = {navigation} homePage = {true} onPressRight = {() => navigation.navigate('Add')}/>
 
-            <Text style = {styles.headerText}>
-                TIS Expense Tracker Application
-            </Text>
+        <EI_InfoBar expense_total = {ExpenseTotal} income_total = {IncomeTotal}/>
 
-            {/* <Image 
-                style = { styles.headerIcon }
-                source = { require('../assets/FinanceIcon.png')} />
-         */}
-        </View>
 
-        <View>
+        <SafeAreaView style = {{flex: 1}}>
+            <View style = {{flex: 1, backgroundColor: 'white'}}>
+                <FlatList
+                    data = {FlatListEITable}
+                    renderItem = {({ item }) => <EI_Row id = {item.id} 
+                                                        type = {item.type} 
+                                                        category = {item.category} 
+                                                        value = {item.value} 
+                                                        />}>
+                </FlatList>
+            </View>
+        </SafeAreaView>
+
+        {/* <View>
 
             <EI_Button text = "Add an Expense" type = "expense" onPress = {() => 
                 {
@@ -90,9 +119,10 @@ const HomeScreen = ({navigation}) =>
                 {
                     navigation.navigate('Add', { type: "income"})
                 }} />    
-        </View>
+        </View> */}
 
-        <SafeAreaView style = {{height: '75%'}}>
+        
+        {/* <View style = {{height: '75%'}}>
             <FlatList   
                 data = {FlatListEITable}
                 keyExtractor={(item, index) => index.toString()}
@@ -102,44 +132,10 @@ const HomeScreen = ({navigation}) =>
                                                 // navigate to an UpdateCategoryValue page with a certain id if pressed
                                                 navigation.navigate('UpdateEI', {item: {item}})    
                                             }}/>} />
-        </SafeAreaView>
-    </SafeAreaView>
+        </View> */}
+    </View>
   )
 }
 
-const styles = StyleSheet.create(
-    {
-        container: {
-            justifyContent: 'center',
-            alignItems: 'center',
-            flex: 1,
-            backgroundColor: '#fff',
-          },
-          headerIcon: {
-            width: 100,
-            height: 100,
-            marginLeft:50,
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-          },
-        headerContainer:
-        {
-            alignSelf: 'center'
-        },
-            headerText:
-            {
-                fontWeight: '600',
-                fontSize: 20
-            },
-        // headerIcon:
-        // {
-        //     width: 100,
-        //     height: 100,
-        //     justifyContent: 'center',
-        //     alignContent: 'center',
-        //     flex:1,
-        // }
-    }
-)
+
 export default HomeScreen

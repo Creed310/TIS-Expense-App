@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, Pressable } from 'react-native'
+import { View, Text, SafeAreaView, Pressable, Image, TouchableOpacity } from 'react-native'
 import React, { useEffect } from 'react'
 import { StyleSheet } from 'react-native'
 import { Update_Button } from '../Update_Button/component'
@@ -23,27 +23,87 @@ const EI_Row = (props) =>
     const id = props.id
     const onPress = props.onPress
 
-    const rowBackgroundColor = type === "expense" ? "#ff6961" : "#D3FA8E"
-    const rowTextColor = type === "expense" ? "#851E15": "#226703"
+    // categoryColour is darker
+    // const categoryTextColor = type === "expense" ?  "#F13939" : "#5DC44D"
 
-    const sign = type === "expense" ? "-" : "+"
+    // // valueColour is lighter
+    // const valueTextColor = type === "expense" ? "#FC5B3E": "#A2D869"
+
+
+    const [categoryTextColor, valueTextColor, backgroundColour, sign] = type === "expense" ? ["#F13939", "#FC5B3E", "#F2DAC9", "-"] : ["#38C422", "#82C422","#E1F2C9", "+"]
+
     // make each row a pressable here so can modify.
 
     useEffect(() =>
     {
         console.log(props)
     },[])
-  return (
-    <SafeAreaView style = {styles.rowContainer}>
-        <SafeAreaView style = {styles.row}>
-            <Pressable
-                onPress = {() => onPress()}>
-                <Text style = {{backgroundColor: rowBackgroundColor, fontSize: 25, color: rowTextColor}}>{id} {category} {sign}{value} {type} 
-                </Text>
-            </Pressable>
-
-        </SafeAreaView>
-    </SafeAreaView>
+  
+      return (
+        <View style = {
+            {
+                backgroundColor: backgroundColour,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                flex: 1,
+                paddingVertical: 5,
+                paddingHorizontal: 15 
+            }
+        }>
+                <View style = {
+                    {
+                        backgroundColor: backgroundColour,
+                        flexDirection: 'row', 
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        width: '100%',
+                        paddingEnd: 10
+                    }}>
+                    <View style = 
+                    {
+                        {
+                            padding: 10
+                        }
+                    }>
+                        <Text style = {
+                            {
+                                fontSize: 30, 
+                                color: categoryTextColor,
+                            }
+                            }>
+                            {category}
+                        </Text>
+                        <View style = {
+                            {
+                                backgroundColor: backgroundColour,
+                                marginVertical: 5
+                            }
+                            }>
+                            <Text style = {
+                                {
+                                    fontSize: 20, 
+                                    color: valueTextColor,
+                                }
+                                }>
+                                {sign} ₹{value}
+                            </Text> 
+                        </View>
+                    </View>
+                <TouchableOpacity>
+                        <Image style = {
+                            {
+                                width: 30, 
+                                height: 30,
+                                backgroundColor: backgroundColour
+                            }
+                            } 
+                            source = {require("../../assets/menu_FILL0_wght100_GRAD0_opsz48.png")}>
+                        </Image>      
+                </TouchableOpacity>
+            </View>
+                
+                
+        </View>
   )
 }
 
@@ -55,6 +115,13 @@ const styles = StyleSheet.create(
         },
         row:
         {
+            backgroundColor: 'pink',
+            flexDirection: 'row',
+            justifyContent: 'space-between'
+        },
+        row2:
+        {
+            backgroundColor: 'purple',
 
         }
 })

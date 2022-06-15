@@ -12,6 +12,7 @@ import UpdateCategoryValueScreen from './screens/UpdateCategoryValueScreen';
 import UpdateEIScreen from './screens/UpdateEIScreen';
 import { useEffect } from 'react';
 import * as SQLite from 'expo-sqlite'
+
 const Stack = createNativeStackNavigator()
 
 const db = SQLite.openDatabase("TISETApp.db")
@@ -22,6 +23,10 @@ const App = () => {
   {
     db.transaction((trx) =>
       {
+        // relate two tables
+        // dropdown
+        // store date.
+
         trx.executeSql('CREATE TABLE IF NOT EXISTS exp_inc_table (rc_id INTEGER PRIMARY KEY AUTOINCREMENT, type VARCHAR2(20), value INTEGER(10), category VARCHAR2(20))', [], () => {console.log("expense table works")}, () => {})
         trx.executeSql('CREATE TABLE IF NOT EXISTS category_type_table (id INTEGER PRIMARY KEY AUTOINCREMENT, category VARCHAR2(20), type VARCHAR2(20))', [], () => {console.log ("category table exists")}, () => {console.log("can't")})
         
@@ -35,10 +40,11 @@ const App = () => {
   
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions = {{headerShown: false}}>
         <Stack.Screen
           name = "Home"
-          component = {HomeScreen} />
+          component = {HomeScreen}
+           />
 
         <Stack.Screen
           name = "Add"

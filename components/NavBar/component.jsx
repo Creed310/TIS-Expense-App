@@ -20,7 +20,7 @@ const NavBar = (props) =>
     <View style = {
       {
         backgroundColor: 'white',
-        height: 90,
+        height: 100,
         flexDirection: 'row',
         justifyContent: 'flex-end',
         alignItems: 'flex-end'
@@ -31,7 +31,7 @@ const NavBar = (props) =>
           flex: 1, 
           justifyContent: 'space-between',
           marginHorizontal: 10,
-          marginBottom: 5
+          marginBottom: 10
         }}>
 
       <TouchableOpacity onPress = {() => onPressLeft()}>

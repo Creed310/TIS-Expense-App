@@ -89,7 +89,7 @@ const EI_Row = (props) =>
                             </Text> 
                         </View>
                     </View>
-                <TouchableOpacity>
+                <TouchableOpacity onPress = {() => onPress()}>
                         <Image style = {
                             {
                                 width: 30, 
@@ -106,24 +106,5 @@ const EI_Row = (props) =>
         </View>
   )
 }
-
-const styles = StyleSheet.create(
-{
-        rowContainer:
-        {
-            width: "100%",
-        },
-        row:
-        {
-            backgroundColor: 'pink',
-            flexDirection: 'row',
-            justifyContent: 'space-between'
-        },
-        row2:
-        {
-            backgroundColor: 'purple',
-
-        }
-})
 
 export default EI_Row

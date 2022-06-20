@@ -6,12 +6,16 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"
 
 import HomeScreen from './screens/HomeScreen'
 import AddScreen from './screens/AddScreen';
+
 import AddCategoryScreen from './screens/AddCategoryScreen';
-import UpdateCategoryScreen from './screens/UpdateCategoryScreen';
-import UpdateCategoryValueScreen from './screens/UpdateCategoryValueScreen';
-import UpdateEIScreen from './screens/UpdateEIScreen';
+import ModifyCategoryScreen from './screens/ModifyCategoryScreen';
+
 import { useEffect } from 'react';
 import * as SQLite from 'expo-sqlite'
+import { MenuProvider } from 'react-native-popup-menu';
+import DeleteCategoryScreen from './screens/DeleteCategoryScreen';
+import RUD_EIScreen from './screens/RUD_EIScreen';
+
 
 const Stack = createNativeStackNavigator()
 
@@ -27,9 +31,9 @@ const App = () => {
         // dropdown
         // store date.
 
-        trx.executeSql('CREATE TABLE IF NOT EXISTS exp_inc_table (rc_id INTEGER PRIMARY KEY AUTOINCREMENT, type VARCHAR2(20), value INTEGER(10), category VARCHAR2(20))', [], () => {console.log("expense table works")}, () => {})
-        trx.executeSql('CREATE TABLE IF NOT EXISTS category_type_table (id INTEGER PRIMARY KEY AUTOINCREMENT, category VARCHAR2(20), type VARCHAR2(20))', [], () => {console.log ("category table exists")}, () => {console.log("can't")})
-        
+        trx.executeSql('CREATE TABLE IF NOT EXISTS "category_type_table" ("ct_id"	INTEGER,"type" TEXT,"category" TEXT,PRIMARY KEY("ct_id" AUTOINCREMENT));', [], () => {console.log ("CT table works and created")}, () => {console.log("CT table could not be created")})
+        trx.executeSql('CREATE TABLE IF NOT EXISTS "exp_inc_table" ("rc_id"	INTEGER,"type"	TEXT,"value"	INTEGER,"category"	TEXT,"date_of_entry"	TEXT,PRIMARY KEY("rc_id" AUTOINCREMENT));', [], () => {console.log("EI table works and created")}, () => {console.log("EI table could not be created")});
+
         // for clearing
 
         // trx.executeSql('DROP TABLE exp_inc_table', [], () => {}, ()=>{})
@@ -39,35 +43,38 @@ const App = () => {
   })
   
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions = {{headerShown: false}}>
-        <Stack.Screen
-          name = "Home"
-          component = {HomeScreen}
-           />
-
-        <Stack.Screen
-          name = "Add"
-          component = {AddScreen} />
-
-        <Stack.Screen
-          name = "AddCategory"
-          component = {AddCategoryScreen} />
-
-        <Stack.Screen 
-          name = "UpdateCategory"
-          component = {UpdateCategoryScreen} />
-
-        <Stack.Screen
-          name = "UpdateCategoryValue"
-          component = {UpdateCategoryValueScreen} />
+    <MenuProvider>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions = {{headerShown: false}}>
+          <Stack.Screen
+            name = "Home"
+            component = {HomeScreen}
+            />
 
           <Stack.Screen
-          name = "UpdateEI"
-          component = {UpdateEIScreen} />
+            name = "Add"
+            component = {AddScreen} />
 
-      </Stack.Navigator>
-    </NavigationContainer>
+          <Stack.Screen
+            name = "AddCategory"
+            component = {AddCategoryScreen} />
+
+          <Stack.Screen 
+            name = "ModifyCategory"
+            component = {ModifyCategoryScreen} />
+
+          <Stack.Screen
+            name = "DeleteCategory"
+            component = {DeleteCategoryScreen} />
+
+            <Stack.Screen
+            name = "RUD_EIScreen"
+            component = {RUD_EIScreen} />
+
+        </Stack.Navigator>
+      </NavigationContainer>
+    </MenuProvider>
+    
   );
 }
 

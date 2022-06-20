@@ -92,7 +92,7 @@ const HomeScreen = ({navigation}) =>
 
         <NavBar navigation = {navigation} homePage = {true} onPressRight = {() => navigation.navigate('Add')}/>
 
-        <EI_InfoBar expense_total = {ExpenseTotal} income_total = {IncomeTotal}/>
+        <EI_InfoBar navigation = {navigation} expense_total = {ExpenseTotal} income_total = {IncomeTotal}/>
 
 
         <SafeAreaView style = {{flex: 1}}>
@@ -103,6 +103,12 @@ const HomeScreen = ({navigation}) =>
                                                         type = {item.type} 
                                                         category = {item.category} 
                                                         value = {item.value} 
+                                                        date_of_entry = {item.date_of_entry}
+                                                        onPress = {() =>
+                                                        {
+                                                            navigation.navigate('RUD_EIScreen', 
+                                                            {item: {item}})
+                                                        }}
                                                         />}>
                 </FlatList>
             </View>

@@ -18,6 +18,9 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-native": "0.68.2",
+    "react-native-context-menu-view": "^1.5.2",
+    "react-native-dropdown-picker": "^5.4.2",
+    "react-native-popup-menu": "^0.15.12",
     "react-native-select-dropdown": "^2.0.3",
     "react-native-sqlite-storage": "^6.0.1",
     "react-native-web": "0.17.7"
@@ -25,5 +28,16 @@
   "devDependencies": {
     "@babel/core": "^7.12.9"
   },
-  "private": true
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Creed310/TIS-Expense-App.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Creed310/TIS-Expense-App/issues"
+  },
+  "homepage": "https://github.com/Creed310/TIS-Expense-App#readme",
+  "description": ""
 }
